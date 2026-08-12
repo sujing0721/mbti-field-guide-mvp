@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Personality Test — Discover Your Type in 4 Minutes | Typology Field Guide</title>
+<meta name="description" content="Take a free, 12-question personality test based on the 4 core dimensions of typology. No sign-up required. Get your type code, a full breakdown, and see where you land on each spectrum.">
+<link rel="canonical" href="https://www.typologyfieldguide.com/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Personality Test — Discover Your Type in 4 Minutes">
+<meta property="og:description" content="12 questions. 4 dimensions. One field-note on how your mind actually works. Free, no sign-up.">
+<meta property="og:image" content="https://www.typologyfieldguide.com/og-cover.jpg">
+<meta property="og:url" content="https://www.typologyfieldguide.com/">
+<meta property="og:site_name" content="Typology Field Guide">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Personality Test — Discover Your Type in 4 Minutes">
+<meta name="twitter:description" content="12 questions. 4 dimensions. One field-note on how your mind actually works. Free, no sign-up.">
+<meta name="twitter:image" content="https://www.typologyfieldguide.com/og-cover.jpg">
+
+<!-- Structured data: identifies this as a Quiz to search engines -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Typology Field Guide Personality Test",
+  "description": "A free 12-question personality assessment across four dimensions: energy, perception, judgment, and structure.",
+  "educationalLevel": "beginner",
+  "isAccessibleForFree": true
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --canvas:#D8CDAF;      /* field-guide cover tan */
+    --paper:#F7F3E8;       /* card / page paper */
+    --ink:#20303D;         /* deep navy ink, primary text */
+    --ink-soft:#4B5A63;    /* secondary text */
+    --forest:#3E5A47;      /* primary accent */
+    --forest-dark:#2E4436;
+    --ochre:#BD8A3F;       /* secondary accent */
+    --rust:#8B3A2F;        /* stamp / tertiary accent */
+    --line: rgba(32,48,61,0.16);
+    --radius: 2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{font-family:'Fraunces', serif;}
+  .mono{font-family:'IBM Plex Mono', monospace; letter-spacing:0.04em;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ===== Screens ===== */
+  .screen{
+    min-height:100vh;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:32px 20px;
+  }
+  .screen.active{display:flex;}
+
+  /* ===== COVER SCREEN ===== */
+  #cover{
+    position:relative;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(255,255,255,0.25), transparent),
+      var(--canvas);
+    overflow:hidden;
+  }
+  .cover-frame{
+    position:relative;
+    max-width:640px;
+    width:100%;
+    text-align:center;
+    padding:56px 40px 44px;
+    border:1.5px solid rgba(32,48,61,0.55);
+    background:rgba(247,243,232,0.35);
+  }
+  .cover-frame::before{
+    content:"";
+    position:absolute;
+    inset:10px;
+    border:1px solid rgba(32,48,61,0.35);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--forest-dark);
+    margin-bottom:22px;
+  }
+  .cover-frame h1{
+    font-size:clamp(38px, 6vw, 62px);
+    font-weight:600;
+    line-height:1.05;
+    margin:0 0 14px;
+    color:var(--ink);
+  }
+  .cover-frame h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:var(--forest-dark);
+  }
+  .cover-sub{
+    font-size:16px;
+    line-height:1.6;
+    color:var(--ink-soft);
+    max-width:440px;
+    margin:0 auto 34px;
+  }
+
+  /* compass rose signature element */
+  .compass{
+    width:168px;
+    height:168px;
+    margin:6px auto 34px;
+  }
+  .compass .ring{fill:none; stroke:var(--ink); stroke-width:1;}
+  .compass .ring2{fill:none; stroke:var(--ink); stroke-width:0.6; opacity:0.5;}
+  .compass .tick{stroke:var(--ink); stroke-width:1; opacity:0.55;}
+  .compass .needle{fill:var(--rust);}
+  .compass .label{font-family:'IBM Plex Mono', monospace; font-size:9px; fill:var(--ink); letter-spacing:0.05em;}
+
+  .btn{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    padding:16px 36px;
+    background:var(--forest);
+    color:var(--paper);
+    border-radius:var(--radius);
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+  .btn:hover{background:var(--forest-dark); transform:translateY(-1px);}
+  .btn:active{transform:translateY(0);}
+  .btn:focus-visible{outline:2px solid var(--ochre); outline-offset:3px;}
+  .btn-ghost{
+    background:none;
+    border:1.5px solid var(--ink);
+    color:var(--ink);
+  }
+  .btn-ghost:hover{background:var(--ink); color:var(--paper);}
+
+  .meta-row{
+    margin-top:28px;
+    display:flex;
+    justify-content:center;
+    gap:22px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    letter-spacing:0.06em;
+  }
+  .meta-row span{white-space:nowrap;}
+
+  /* ===== QUIZ SCREEN ===== */
+  #quiz{background:var(--canvas);}
+  .card-wrap{
+    width:100%;
+    max-width:620px;
+  }
+  .catalog-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+  }
+  .catalog-row .num{color:var(--rust); font-weight:600;}
+
+  .trail{
+    position:relative;
+    height:6px;
+    background:rgba(32,48,61,0.15);
+    margin-bottom:36px;
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .trail-fill{
+    position:absolute; left:0; top:0; bottom:0;
+    width:0%;
+    background:var(--forest);
+    transition:width 0.4s ease;
+  }
+
+  .q-card{
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    padding:44px 40px;
+    box-shadow:6px 6px 0 rgba(32,48,61,0.18);
+  }
+  .q-axis-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ochre);
+    margin-bottom:16px;
+  }
+  .q-text{
+    font-family:'Fraunces', serif;
+    font-size:clamp(22px,3.4vw,30px);
+    font-weight:500;
+    line-height:1.3;
+    margin:0 0 34px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .option{
+    text-align:left;
+    background:transparent;
+    border:1.5px solid rgba(32,48,61,0.4);
+    padding:18px 22px;
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    color:var(--ink);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    transition:border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+  }
+  .option:hover{border-color:var(--forest); background:rgba(62,90,71,0.06); transform:translateX(2px);}
+  .option:focus-visible{outline:2px solid var(--ochre); outline-offset:2px;}
+  .option .tab{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--paper);
+    background:var(--ink);
+    width:26px;
+    height:26px;
+    min-width:26px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .quiz-foot{
+    margin-top:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .link-btn{
+    background:none; border:none; cursor:pointer;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-soft);
+    padding:6px 0;
+  }
+  .link-btn:hover{color:var(--ink);}
+  .link-btn:disabled{opacity:0.3; cursor:default;}
+
+  /* ===== RESULTS SCREEN ===== */
+  #results{background:var(--canvas); align-items:flex-start; padding-top:56px; padding-bottom:56px;}
+  .result-wrap{width:100%; max-width:720px;}
+  .entry-head{
+    text-align:center;
+    margin-bottom:30px;
+  }
+  .entry-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--forest-dark);
+    margin-bottom:10px;
+  }
+  .type-code{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:15px;
+    letter-spacing:0.2em;
+    color:var(--rust);
+    background:var(--paper);
+    border:1.5px solid var(--rust);
+    display:inline-block;
+    padding:6px 16px;
+    margin-bottom:18px;
+    transform:rotate(-1.5deg);
+  }
+  .type-name{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(34px,5.5vw,52px);
+    margin:0 0 10px;
+  }
+  .type-tagline{
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:480px;
+    margin:0 auto;
+    line-height:1.6;
+  }
+
+  .entry-card{
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    padding:36px 38px;
+    margin-bottom:24px;
+    box-shadow:6px 6px 0 rgba(32,48,61,0.18);
+  }
+  .entry-card h3{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ochre);
+    margin:0 0 14px;
+  }
+  .entry-card p{
+    font-size:16px;
+    line-height:1.7;
+    color:var(--ink);
+    margin:0;
+  }
+
+  /* axis chart - signature element */
+  .axis-list{display:flex; flex-direction:column; gap:22px;}
+  .axis-row .axis-labels{
+    display:flex; justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.05em;
+    margin-bottom:8px;
+    color:var(--ink-soft);
+  }
+  .axis-row .axis-labels .strong{color:var(--ink); font-weight:600;}
+  .axis-track{
+    position:relative;
+    height:10px;
+    background:rgba(32,48,61,0.1);
+    border-radius:5px;
+  }
+  .axis-track::before{
+    content:"";
+    position:absolute; left:50%; top:-4px; bottom:-4px;
+    width:1px; background:rgba(32,48,61,0.3);
+  }
+  .axis-fill{
+    position:absolute; top:0; bottom:0;
+    background:var(--forest);
+    border-radius:5px;
+  }
+  .axis-marker{
+    position:absolute; top:-5px;
+    width:20px; height:20px;
+    background:var(--rust);
+    border:2px solid var(--paper);
+    border-radius:50%;
+    transform:translateX(-50%);
+  }
+
+  .traits-row{
+    display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .trait-pill{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    border:1px solid var(--ink);
+    padding:7px 14px;
+    color:var(--ink);
+  }
+
+  .results-actions{
+    display:flex;
+    gap:14px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:8px;
+  }
+
+  footer.note{
+    text-align:center;
+    margin-top:34px;
+    font-size:12px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+
+  @media (max-width:560px){
+    .q-card, .entry-card{padding:28px 22px;}
+    .cover-frame{padding:40px 22px 34px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section id="cover" class="screen active">
+  <div class="cover-frame">
+    <div class="eyebrow">Est. for the curious &mdash; No. 001</div>
+
+    <svg class="compass" viewBox="0 0 168 168">
+      <circle class="ring" cx="84" cy="84" r="78"/>
+      <circle class="ring2" cx="84" cy="84" r="60"/>
+      <g class="tick">
+        <line x1="84" y1="6" x2="84" y2="16"/>
+        <line x1="84" y1="152" x2="84" y2="162"/>
+        <line x1="6" y1="84" x2="16" y2="84"/>
+        <line x1="152" y1="84" x2="162" y2="84"/>
+      </g>
+      <text class="label" x="84" y="26" text-anchor="middle">N</text>
+      <text class="label" x="84" y="146" text-anchor="middle">S</text>
+      <text class="label" x="26" y="88" text-anchor="middle">I</text>
+      <text class="label" x="142" y="88" text-anchor="middle">E</text>
+      <polygon class="needle" points="84,30 90,84 84,138 78,84"/>
+      <circle cx="84" cy="84" r="4" fill="var(--ink)"/>
+    </svg>
+
+    <h1>The Typology<br><em>Field Guide</em></h1>
+    <p class="cover-sub">Twelve questions. Four dimensions. One field-note on how your mind actually works &mdash; how you recharge, decide, and move through the world.</p>
+
+    <button class="btn" id="start-btn">Begin the Expedition</button>
+
+    <div class="meta-row">
+      <span>12 QUESTIONS</span>
+      <span>&middot;</span>
+      <span>~4 MINUTES</span>
+      <span>&middot;</span>
+      <span>NO SIGN-UP</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz" class="screen">
+  <div class="card-wrap">
+    <div class="catalog-row">
+      <span>SPECIMEN CARD <span class="num" id="q-current">01</span> / <span id="q-total">12</span></span>
+      <span id="q-axis-label">ENERGY</span>
+    </div>
+    <div class="trail"><div class="trail-fill" id="trail-fill"></div></div>
+
+    <div class="q-card">
+      <div class="q-axis-tag" id="q-tag">DIMENSION: ENERGY</div>
+      <p class="q-text" id="q-text">Question goes here</p>
+      <div class="options" id="q-options"></div>
+    </div>
+
+    <div class="quiz-foot">
+      <button class="link-btn" id="back-btn" disabled>&larr; Previous</button>
+      <button class="link-btn" id="restart-link">Start over</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESULTS ============ -->
+<section id="results" class="screen">
+  <div class="result-wrap">
+    <div class="entry-head">
+      <div class="entry-eyebrow">Field Guide Entry</div>
+      <div class="type-code" id="res-code">XXXX</div>
+      <h2 class="type-name" id="res-name">The Type Name</h2>
+      <p class="type-tagline" id="res-tagline">Tagline goes here.</p>
+    </div>
+
+    <div class="entry-card">
+      <h3>Field Notes</h3>
+      <p id="res-desc">Description goes here.</p>
+    </div>
+
+    <div class="entry-card">
+      <h3>Measured Tendencies</h3>
+      <div class="axis-list" id="axis-chart"></div>
+    </div>
+
+    <div class="entry-card">
+      <h3>Notable Traits</h3>
+      <div class="traits-row" id="res-traits"></div>
+    </div>
+
+    <div class="results-actions">
+      <button class="btn" id="share-btn">Copy Result Link</button>
+      <button class="btn btn-ghost" id="retake-btn">Retake the Test</button>
+    </div>
+
+    <footer class="note">This is a lightweight self-reflection tool, not a clinical or scientific assessment.<br>Your answers stay in your browser &mdash; nothing is stored or sent anywhere.</footer>
+  </div>
+</section>
+
+<script>
+(function(){
+
+  // ---------- Question bank: 12 questions, 3 per axis ----------
+  const QUESTIONS = [
+    // Energy: E vs I
+    {axis:'EI', tag:'Dimension: Energy', text:"At a party where you barely know anyone, you tend to...",
+      options:[{label:'Work the room and strike up new conversations', val:'E'},
+               {label:'Find one or two people and go deep', val:'I'}]},
+    {axis:'EI', tag:'Dimension: Energy', text:"After a long, demanding week, you recharge best by...",
+      options:[{label:'Making plans and being around people', val:'E'},
+               {label:'Having a quiet night to yourself', val:'I'}]},
+    {axis:'EI', tag:'Dimension: Energy', text:"In a group project, you do your best thinking when you...",
+      options:[{label:'Talk it out loud with the team', val:'E'},
+               {label:'Sit with the problem on your own first', val:'I'}]},
+
+    // Information: S vs N
+    {axis:'SN', tag:'Dimension: Perception', text:"You're naturally more drawn to...",
+      options:[{label:'Practical, hands-on skills', val:'S'},
+               {label:'Big ideas and abstract theories', val:'N'}]},
+    {axis:'SN', tag:'Dimension: Perception', text:"When learning something new, you prefer...",
+      options:[{label:'Clear, step-by-step instructions', val:'S'},
+               {label:'Understanding the concept behind it first', val:'N'}]},
+    {axis:'SN', tag:'Dimension: Perception', text:"You tend to trust...",
+      options:[{label:'What you can directly see and verify', val:'S'},
+               {label:'Your gut sense of where things are headed', val:'N'}]},
+
+    // Decisions: T vs F
+    {axis:'TF', tag:'Dimension: Judgment', text:"When you have to make a tough call, you lead with...",
+      options:[{label:'Logic and objective analysis', val:'T'},
+               {label:'Values and how people will be affected', val:'F'}]},
+    {axis:'TF', tag:'Dimension: Judgment', text:"A friend vents to you about a problem. Your first instinct is to...",
+      options:[{label:'Help them find a solution', val:'T'},
+               {label:'Just listen and validate how they feel', val:'F'}]},
+    {axis:'TF', tag:'Dimension: Judgment', text:"You'd rather be known as someone who is...",
+      options:[{label:'Fair and consistent', val:'T'},
+               {label:'Warm and compassionate', val:'F'}]},
+
+    // Structure: J vs P
+    {axis:'JP', tag:'Dimension: Structure', text:"Your ideal weekend...",
+      options:[{label:'Has a loose plan that you follow', val:'J'},
+               {label:'Unfolds however it unfolds', val:'P'}]},
+    {axis:'JP', tag:'Dimension: Structure', text:"When it comes to deadlines, you usually...",
+      options:[{label:'Finish well ahead of time', val:'J'},
+               {label:'Do your best work right before it\'s due', val:'P'}]},
+    {axis:'JP', tag:'Dimension: Structure', text:"Your workspace is generally...",
+      options:[{label:'Organized and put together', val:'J'},
+               {label:'A little chaotic, but you know where everything is', val:'P'}]},
+  ];
+
+  const AXIS_NAMES = {EI:'ENERGY', SN:'PERCEPTION', TF:'JUDGMENT', JP:'STRUCTURE'};
+
+  const TYPES = {
+    ISTJ:{name:'The Custodian', tagline:'Steady, thorough, and quietly reliable.', desc:'You bring order to whatever you touch. You trust facts over hunches, follow through when others drift, and take real pride in doing things properly. People lean on you because you rarely let them down.', traits:['Dependable','Methodical','Private','Loyal']},
+    ISFJ:{name:'The Guardian', tagline:'Warm on the inside, dependable on the outside.', desc:'You notice what people need before they ask for it, and you show love through action rather than words. You value harmony and tradition, and you\'ll quietly carry more than your share of the load to keep things running smoothly.', traits:['Caring','Dutiful','Observant','Modest']},
+    INFJ:{name:'The Confidant', tagline:'Idealistic, insightful, and privately intense.', desc:'You see patterns and meaning that others miss, and you hold a quiet conviction about how things ought to be. You care deeply but selectively, and you need real solitude to recharge from a world that asks a lot of you.', traits:['Insightful','Principled','Empathetic','Reserved']},
+    INTJ:{name:'The Strategist', tagline:'A long-range planner with a mind of their own.', desc:'You see the endgame before most people have finished the opening. Independent and hard to sway, you\'d rather be right than be liked, and you\'re usually building toward something bigger than the room realizes.', traits:['Independent','Analytical','Ambitious','Skeptical']},
+    ISTP:{name:'The Craftsman', tagline:'Cool under pressure, happiest with hands busy.', desc:'You learn by doing and troubleshoot on the fly. Calm in a crisis and allergic to over-explaining, you\'d rather take something apart and understand it than read a manual about it.', traits:['Practical','Adaptable','Independent','Calm']},
+    ISFP:{name:'The Artisan', tagline:'Gentle, aesthetic, and quietly stubborn about their values.', desc:'You live by feel rather than by rule, and you notice beauty most people walk past. Easygoing on the surface, you have a firm inner compass that you rarely compromise, even if you rarely announce it.', traits:['Sensitive','Authentic','Flexible','Observant']},
+    INFP:{name:'The Dreamer', tagline:'Quiet on the outside, vivid on the inside.', desc:'You\'re driven by a strong internal sense of right and wrong, and you\'re happiest when your daily life lines up with your values. Imaginative and idealistic, you often care more than you let on.', traits:['Idealistic','Imaginative','Empathetic','Introspective']},
+    INTP:{name:'The Theorist', tagline:'Endlessly curious, allergic to easy answers.', desc:'You\'d rather understand something fully than perform certainty about it. You pull ideas apart to see how they work, enjoy a good debate for its own sake, and get restless with anything you find shallow.', traits:['Curious','Logical','Independent','Skeptical']},
+    ESTP:{name:'The Daredevil', tagline:'Fast, bold, and built for the present moment.', desc:'You read a room instantly and act while others are still deliberating. Energetic and hands-on, you\'d rather learn from doing than from planning, and you bring momentum wherever you go.', traits:['Bold','Spontaneous','Perceptive','Direct']},
+    ESFP:{name:'The Performer', tagline:'Warm, spontaneous, and impossible to ignore.', desc:'You bring energy into any room and genuinely enjoy the people in it. Present-focused and generous, you\'re quick to turn an ordinary moment into a good one, and you make it look effortless.', traits:['Enthusiastic','Warm','Spontaneous','Playful']},
+    ENFP:{name:'The Spark', tagline:'Curious, warm, and full of possibility.', desc:'You see potential everywhere, in people especially, and you get genuinely excited about new ideas and connections. Your energy is contagious, even if follow-through isn\'t always your strongest suit.', traits:['Enthusiastic','Imaginative','Warm','Adaptable']},
+    ENTP:{name:'The Debater', tagline:'Quick-witted and always up for an argument.', desc:'You love turning an idea over to see what breaks. Sharp and fast on your feet, you enjoy a good debate, get bored easily with routine, and are usually already three ideas ahead of the conversation.', traits:['Inventive','Quick-witted','Bold','Argumentative']},
+    ESTJ:{name:'The Director', tagline:'Organized, decisive, and built to run things.', desc:'You bring structure and momentum to whatever you\'re part of. Practical and clear-headed, you value competence and follow-through, and you\'re usually the one making sure things actually get done.', traits:['Decisive','Organized','Direct','Dependable']},
+    ESFJ:{name:'The Host', tagline:'Sociable, dutiful, and deeply attuned to others.', desc:'You notice what people need to feel comfortable and included, and you work hard to keep everyone in your circle looked after. Traditions and relationships matter to you, and loyalty runs deep.', traits:['Sociable','Supportive','Organized','Loyal']},
+    ENFJ:{name:'The Mentor', tagline:'A natural at bringing out the best in people.', desc:'You read people quickly and genuinely want to see them grow. Warm and persuasive, you tend to become the glue in a group, though it can cost you to always put others\' needs first.', traits:['Charismatic','Empathetic','Motivating','Idealistic']},
+    ENTJ:{name:'The Commander', tagline:'Decisive, driven, and built for the long game.', desc:'You see the big picture and organize people and resources to get there. Confident and direct, you\'re comfortable making hard calls, and you expect the same competence from yourself that you expect from others.', traits:['Strategic','Confident','Decisive','Efficient']},
+  };
+
+  // ---------- State ----------
+  let current = 0;
+  const answers = new Array(QUESTIONS.length).fill(null);
+
+  const coverScreen = document.getElementById('cover');
+  const quizScreen = document.getElementById('quiz');
+  const resultsScreen = document.getElementById('results');
+
+  function showScreen(el){
+    [coverScreen, quizScreen, resultsScreen].forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+  }
+
+  document.getElementById('start-btn').addEventListener('click', () => {
+    current = 0;
+    answers.fill(null);
+    renderQuestion();
+    showScreen(quizScreen);
+  });
+
+  document.getElementById('restart-link').addEventListener('click', () => {
+    showScreen(coverScreen);
+  });
+
+  document.getElementById('back-btn').addEventListener('click', () => {
+    if(current > 0){
+      current -= 1;
+      renderQuestion();
+    }
+  });
+
+  document.getElementById('retake-btn').addEventListener('click', () => {
+    current = 0;
+    answers.fill(null);
+    renderQuestion();
+    showScreen(quizScreen);
+  });
+
+  function renderQuestion(){
+    const q = QUESTIONS[current];
+    document.getElementById('q-current').textContent = String(current+1).padStart(2,'0');
+    document.getElementById('q-total').textContent = String(QUESTIONS.length).padStart(2,'0');
+    document.getElementById('q-axis-label').textContent = AXIS_NAMES[q.axis];
+    document.getElementById('q-tag').textContent = 'Dimension: ' + AXIS_NAMES[q.axis].charAt(0) + AXIS_NAMES[q.axis].slice(1).toLowerCase();
+    document.getElementById('q-text').textContent = q.text;
+    document.getElementById('trail-fill').style.width = ((current)/QUESTIONS.length*100) + '%';
+    document.getElementById('back-btn').disabled = current === 0;
+
+    const optWrap = document.getElementById('q-options');
+    optWrap.innerHTML = '';
+    q.options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option';
+      btn.type = 'button';
+      btn.innerHTML = '<span class="tab">' + (idx===0?'A':'B') + '</span><span>' + opt.label + '</span>';
+      btn.addEventListener('click', () => selectOption(opt.val));
+      optWrap.appendChild(btn);
+    });
+  }
+
+  function selectOption(val){
+    answers[current] = val;
+    document.getElementById('trail-fill').style.width = ((current+1)/QUESTIONS.length*100) + '%';
+    if(current < QUESTIONS.length - 1){
+      current += 1;
+      setTimeout(renderQuestion, 120);
+    } else {
+      setTimeout(computeResult, 150);
+    }
+  }
+
+  function computeResult(){
+    const tally = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
+    answers.forEach(v => { if(v) tally[v] += 1; });
+
+    const code =
+      (tally.E >= tally.I ? 'E' : 'I') +
+      (tally.S >= tally.N ? 'S' : 'N') +
+      (tally.T >= tally.F ? 'T' : 'F') +
+      (tally.J >= tally.P ? 'J' : 'P');
+
+    const info = TYPES[code];
+
+    document.getElementById('res-code').textContent = code;
+    document.getElementById('res-name').textContent = info.name;
+    document.getElementById('res-tagline').textContent = info.tagline;
+    document.getElementById('res-desc').textContent = info.desc;
+
+    const traitsWrap = document.getElementById('res-traits');
+    traitsWrap.innerHTML = '';
+    info.traits.forEach(t => {
+      const pill = document.createElement('span');
+      pill.className = 'trait-pill';
+      pill.textContent = t;
+      traitsWrap.appendChild(pill);
+    });
+
+    // Axis chart (signature element)
+    const axes = [
+      {left:'Introversion', right:'Extraversion', a:tally.I, b:tally.E, code:code[0], leftKey:'I', rightKey:'E'},
+      {left:'Intuition', right:'Sensing', a:tally.N, b:tally.S, code:code[1], leftKey:'N', rightKey:'S'},
+      {left:'Feeling', right:'Thinking', a:tally.F, b:tally.T, code:code[2], leftKey:'F', rightKey:'T'},
+      {left:'Perceiving', right:'Judging', a:tally.P, b:tally.J, code:code[3], leftKey:'P', rightKey:'J'},
+    ];
+    const chart = document.getElementById('axis-chart');
+    chart.innerHTML = '';
+    axes.forEach(ax => {
+      const total = ax.a + ax.b || 1;
+      const pct = Math.round((ax.b/total)*100); // position 0-100 from left(a) to right(b)
+      const row = document.createElement('div');
+      row.className = 'axis-row';
+      row.innerHTML =
+        '<div class="axis-labels">' +
+          '<span class="' + (ax.code===ax.leftKey ? 'strong' : '') + '">' + ax.left + '</span>' +
+          '<span class="' + (ax.code===ax.rightKey ? 'strong' : '') + '">' + ax.right + '</span>' +
+        '</div>' +
+        '<div class="axis-track">' +
+          '<div class="axis-marker" style="left:' + pct + '%;"></div>' +
+        '</div>';
+      chart.appendChild(row);
+    });
+
+    showScreen(resultsScreen);
+  }
+
+  document.getElementById('share-btn').addEventListener('click', () => {
+    const code = document.getElementById('res-code').textContent;
+    const text = "My type: " + code + " — " + document.getElementById('res-name').textContent;
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('share-btn');
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = original, 1600);
+      });
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
